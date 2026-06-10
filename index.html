@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ڕێژین🤍</title>
+    <title>بۆ ڕێژینەکەم 🤍</title>
     <style>
         body {
             margin: 0;
@@ -12,20 +12,23 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #ffe5ec, #ffb3c6);
+            /* باکگراوندێکی ڕۆمانسی مۆدێرن و هێمن */
+            background: linear-gradient(135deg, #2b1055, #7597de);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             direction: rtl;
+            position: relative;
         }
 
+        /* کارتە سەرەکییەکەی ناوەڕاست */
         .card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.15);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             max-width: 400px;
             animation: fadeIn 2s ease-in-out;
             position: relative;
@@ -33,27 +36,30 @@
         }
 
         h1 {
-            color: #ff477e;
-            font-size: 2.5rem;
+            color: #ffffff;
+            font-size: 2.8rem;
             margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         p {
-            color: #4a4a4a;
+            color: #f0f0f0;
             font-size: 1.2rem;
             line-height: 1.8;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .heart-icon {
             font-size: 50px;
-            color: #ff477e;
+            color: #ffffff;
             animation: beat 1.2s infinite;
             margin-bottom: 15px;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px #fff);
         }
 
-        /* ئەنیمەیشنی لێدانی دڵ */
+        /* ئەنیمەیشنی لێدانی دڵی سەرەکی */
         @keyframes beat {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
@@ -64,46 +70,99 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-    
-        .bg-hearts {
+        /* ستایلی بارانەکە */
+        .rain-container {
             position: absolute;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
             pointer-events: none;
         }
 
-        .floating-heart {
+        .drop {
             position: absolute;
-            color: rgba(255, 71, 126, 0.2);
-            font-size: 20px;
-            animation: float 6s linear infinite;
-            bottom: -50px;
+            top: -50px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        /* ئەنیمەیشنی بارینی دەق و دڵەکان */
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) translateX(50px) rotate(20deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-hearts">
-        <span class="floating-heart" style="left: 10%; animation-delay: 0s;">❤️</span>
-        <span class="floating-heart" style="left: 25%; animation-delay: 2s; font-size: 30px;">🤍</span>
-        <span class="floating-heart" style="left: 40%; animation-delay: 4s;">❤️</span>
-        <span class="floating-heart" style="left: 60%; animation-delay: 1s; font-size: 25px;">🤍</span>
-        <span class="floating-heart" style="left: 75%; animation-delay: 3s;">❤️</span>
-        <span class="floating-heart" style="left: 90%; animation-delay: 5s;">🤍</span>
-    </div>
+    <div class="rain-container" id="rainContainer"></div>
 
     <div class="card">
         <div class="heart-icon">🤍</div>
-        <h1>Rezhin 🤍
+        <h1>Rezhin</h1>
+        <p>تۆ وەک بارانێکی هێمن هاتی و ژیانی منت پڕ کرد لە جوانی و ئارامی. هەمیشە لە دڵمدا دەمێنیتەوە. 🤍</p>
     </div>
+
+    <script>
+        const container = document.getElementById('rainContainer');
+        // ئەو شتانەی کە دەبارێن
+        const rainItems = ['Rezhin 🤍', '🤍', 'Rezhin', '🤍', '🤍'];
+
+        function createRainDrop() {
+            const drop = document.createElement('div');
+            drop.classList.add('drop');
+            
+            // هەڵبژاردنی یەکێک لە دەقەکان بە شێوازی عەشوائی
+            drop.innerText = rainItems[Math.floor(Math.random() * rainItems.length)];
+            
+            // شوێنی بارینەکە لە چەپەوە بۆ ڕاست (عەشوائی)
+            drop.style.left = Math.random() * 100 + '%';
+            
+            // قەبارەی دەقەکە (بچووک و گەورە بۆ جوانی زیاتر)
+            const size = Math.random() * 12 + 12; // نێوان 12px بۆ 24px
+            drop.style.fontSize = size + 'px';
+            
+            // خێرایی بارینەکە (نێوان 4 بۆ 8 چرکە)
+            const duration = Math.random() * 4 + 4;
+            drop.style.animationDuration = duration + 's';
+            
+            // کاتی دەستپێکردنی جیاواز بۆ ئەوەی پێکەوە نەبارێن
+            drop.style.animationDelay = Math.random() * 5 + 's';
+            
+            container.appendChild(drop);
+
+            // سڕینەوەی دڵەکە دوای تەواوبوونی ئەنیمەیشنەکە بۆ ئەوەی مۆبایلەکە قورس نەبێت
+            setTimeout(() => {
+                drop.remove();
+            }, (duration + 5) * 1000);
+        }
+
+        // دروستکردنی 40 دڵ و ناوی باراو لە سەرەتادا
+        for (let i = 0; i < 40; i++) {
+            createRainDrop();
+        }
+
+        // بەردەوام دروستکردنی دڵ و ناوی نوێ لە هەموو 300 مۆڵ چرکەیەکدا
+        setInterval(createRainDrop, 300);
+    </script>
 
 </body>
 </html>
